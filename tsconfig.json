@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@dpr-system/shared": ["shared/src"],
+      "@dpr-system/shared/*": ["shared/src/*"]
+    }
+  },
+  "include": ["frontend/src", "shared/src"]
+}
