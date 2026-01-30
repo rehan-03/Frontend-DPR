@@ -11,15 +11,28 @@ import {
   Menu,
   MenuItem,
   Badge,
-  Tooltip
+  Tooltip,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon
 } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import WarningIcon from '@mui/icons-material/Warning';
+import InfoIcon from '@mui/icons-material/Info';
 
 const GovHeader: React.FC = () => {
+  // Profile Menu State
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  // Notification Menu State
+  const [notifAnchorEl, setNotifAnchorEl] = useState<null | HTMLElement>(null);
+  const notifOpen = Boolean(notifAnchorEl);
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -27,6 +40,14 @@ const GovHeader: React.FC = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleNotifClick = (event: React.MouseEvent<HTMLElement>) => {
+    setNotifAnchorEl(event.currentTarget);
+  };
+
+  const handleNotifClose = () => {
+    setNotifAnchorEl(null);
   };
 
   const handleLogout = () => {
@@ -74,13 +95,83 @@ const GovHeader: React.FC = () => {
             </Box>
 
             {/* Notifications */}
-            <Tooltip title="Notifications">
-              <IconButton color="inherit">
-                <Badge badgeContent={3} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-            </Tooltip>
+            <Box>
+              <Tooltip title="Notifications">
+                <IconButton
+                  color="inherit"
+                  onClick={handleNotifClick}
+                  aria-controls={notifOpen ? 'notification-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={notifOpen ? 'true' : undefined}
+                >
+                  <Badge badgeContent={3} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+
+              <Menu
+                id="notification-menu"
+                anchorEl={notifAnchorEl}
+                open={notifOpen}
+                onClose={handleNotifClose}
+                onClick={handleNotifClose}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    width: 320,
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    mt: 1.5,
+                  },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              >
+                <Typography variant="subtitle1" sx={{ px: 2, py: 1, fontWeight: 'bold', borderBottom: '1px solid #eee' }}>
+                  Notifications (3)
+                </Typography>
+                <List dense disablePadding>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <CheckCircleIcon color="success" fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Analysis Completed"
+                      secondary="Road_Project_Assam.pdf processed successfully."
+                      primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }}
+                    />
+                  </ListItem>
+                  <Divider component="li" />
+                  <ListItem button>
+                    <ListItemIcon>
+                      <WarningIcon color="warning" fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Action Required"
+                      secondary="Missing compliance docs for ID: DPR-2023-005"
+                      primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }}
+                    />
+                  </ListItem>
+                  <Divider component="li" />
+                  <ListItem button>
+                    <ListItemIcon>
+                      <InfoIcon color="info" fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="System Maintenance"
+                      secondary="Scheduled downtime at 2:00 AM IST."
+                      primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }}
+                    />
+                  </ListItem>
+                </List>
+                <Box sx={{ p: 1, borderTop: '1px solid #eee', textAlign: 'center' }}>
+                  <Typography variant="caption" color="primary" sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
+                    View All Notifications
+                  </Typography>
+                </Box>
+              </Menu>
+            </Box>
 
             {/* User Profile */}
             <Box>

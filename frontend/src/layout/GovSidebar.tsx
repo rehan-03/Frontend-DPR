@@ -9,7 +9,8 @@ import {
   Divider,
   Typography,
   IconButton,
-  Tooltip
+  Tooltip,
+  ListSubheader
 } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -18,6 +19,8 @@ import MapIcon from '@mui/icons-material/Map';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 const drawerWidth = 260;
 const collapsedWidth = 65;
@@ -29,95 +32,139 @@ interface GovSidebarProps {
   onNavigate: (page: string) => void;
 }
 
-const menuItems = [
-  { id: 'dashboard', text: 'Dashboard', icon: <DashboardIcon /> },
-  { id: 'upload', text: 'Upload Documents', icon: <CloudUploadIcon /> },
-  { id: 'reports', text: 'Reports', icon: <AssessmentIcon /> },
-  { id: 'geo', text: 'Geospatial Verification', icon: <MapIcon /> },
-  { id: 'settings', text: 'Settings', icon: <SettingsIcon /> },
-];
-
 const GovSidebar: React.FC<GovSidebarProps> = ({ collapsed, onToggle, currentPage, onNavigate }) => {
+
+  const renderMenuItem = (id: string, text: string, icon: React.ReactNode) => (
+    <Tooltip title={collapsed ? text : ''} placement="right" key={id}>
+      <ListItem disablePadding sx={{ display: 'block' }}>
+        <ListItemButton
+          selected={currentPage === id}
+          onClick={() => onNavigate(id)}
+          sx={{
+            minHeight: 48,
+            justifyContent: collapsed ? 'center' : 'initial',
+            borderLeft: currentPage === id && !collapsed ? '4px solid #0f2c59' : '4px solid transparent',
+            px: 2.5,
+            transition: 'all 0.2s',
+            '&.Mui-selected': {
+              bgcolor: 'rgba(15, 44, 89, 0.08)',
+              color: '#0f2c59',
+              fontWeight: 'bold',
+              '& .MuiListItemIcon-root': {
+                color: '#0f2c59',
+              },
+            },
+            '&:hover': {
+              bgcolor: 'rgba(15, 44, 89, 0.04)',
+              transform: collapsed ? 'none' : 'translateX(5px)'
+            }
+          }}
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: collapsed ? 0 : 3,
+              justifyContent: 'center',
+              color: currentPage === id ? '#0f2c59' : '#757575'
+            }}
+          >
+            {icon}
+          </ListItemIcon>
+          <ListItemText
+            primary={text}
+            sx={{
+              opacity: collapsed ? 0 : 1,
+              '& .MuiTypography-root': { fontWeight: currentPage === id ? 600 : 400 }
+            }}
+          />
+        </ListItemButton>
+      </ListItem>
+    </Tooltip>
+  );
+
   return (
     <Box
       sx={{
         width: collapsed ? collapsedWidth : drawerWidth,
         flexShrink: 0,
-        bgcolor: '#fff',
-        borderRight: '1px solid rgba(0,0,0,0.12)',
+        bgcolor: '#ffffff',
+        borderRight: '1px solid #e0e0e0',
         height: '100%',
         display: { xs: 'none', md: 'flex' },
         flexDirection: 'column',
-        transition: 'width 0.3s ease',
-        overflowX: 'hidden'
+        transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        overflowX: 'hidden',
+        boxShadow: collapsed ? 'none' : '4px 0 20px rgba(0,0,0,0.02)'
       }}
     >
+      {/* Header Toggle */}
       <Box sx={{
         p: 2,
-        bgcolor: '#f5f7fa',
+        bgcolor: '#f8f9fa',
         display: 'flex',
         alignItems: 'center',
         justifyContent: collapsed ? 'center' : 'space-between',
-        height: 56
+        height: 64,
+        borderBottom: '1px solid #e0e0e0'
       }}>
         {!collapsed && (
-          <Typography variant="subtitle2" color="text.secondary" sx={{ fontWeight: 'bold', whiteSpace: 'nowrap' }}>
-            MAIN MENU
+          <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0f2c59', letterSpacing: '1px' }}>
+            NAVIGATION
           </Typography>
         )}
-        <IconButton onClick={onToggle} size="small">
-          {collapsed ? <MenuIcon color="action" /> : <MenuOpenIcon color="action" />}
+        <IconButton onClick={onToggle} size="small" sx={{ color: '#0f2c59' }}>
+          {collapsed ? <MenuIcon /> : <MenuOpenIcon />}
         </IconButton>
       </Box>
-      <Divider />
-      <List disablePadding>
-        {menuItems.map((item) => (
-          <ListItem key={item.id} disablePadding sx={{ display: 'block' }}>
-            <Tooltip title={collapsed ? item.text : ''} placement="right">
-              <ListItemButton
-                selected={currentPage === item.id}
-                onClick={() => onNavigate(item.id)}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: collapsed ? 'center' : 'initial',
-                  borderLeft: currentPage === item.id && !collapsed ? '4px solid #0f2c59' : '4px solid transparent',
-                  px: 2.5,
-                  '&.Mui-selected': {
-                    bgcolor: 'rgba(15, 44, 89, 0.08)',
-                    color: '#0f2c59',
-                    '& .MuiListItemIcon-root': {
-                      color: '#0f2c59',
-                    },
-                  },
-                  '&:hover': {
-                    bgcolor: 'rgba(0,0,0,0.04)',
-                  }
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: collapsed ? 0 : 3,
-                    justifyContent: 'center',
-                    color: currentPage === item.id ? '#0f2c59' : '#666'
-                  }}
-                >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.text}
-                  sx={{ opacity: collapsed ? 0 : 1, transition: 'opacity 0.2s' }}
-                  primaryTypographyProps={{
-                    fontSize: '0.95rem',
-                    fontWeight: currentPage === item.id ? 600 : 400,
-                    whiteSpace: 'nowrap'
-                  }}
-                />
-              </ListItemButton>
-            </Tooltip>
-          </ListItem>
-        ))}
+
+      {/* Menu Categories */}
+      <List component="nav" sx={{ flexGrow: 1, pt: 1 }}>
+
+        {/* Section 1: Core Operations */}
+        {!collapsed && (
+          <ListSubheader component="div" sx={{ lineHeight: '36px', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', color: '#9e9e9e' }}>
+            Core Modules
+          </ListSubheader>
+        )}
+        {renderMenuItem('dashboard', 'Dashboard', <DashboardIcon />)}
+        {renderMenuItem('upload', 'Upload DPR', <CloudUploadIcon />)}
+
+        {!collapsed && <Divider sx={{ my: 1, mx: 2, opacity: 0.6 }} />}
+
+        {/* Section 2: Analysis & Reports */}
+        {!collapsed && (
+          <ListSubheader component="div" sx={{ lineHeight: '36px', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', color: '#9e9e9e' }}>
+            Analysis
+          </ListSubheader>
+        )}
+        {renderMenuItem('geo', 'Geospatial Verification', <MapIcon />)}
+        {renderMenuItem('reports', 'Reports & Analytics', <AssessmentIcon />)}
+        {renderMenuItem('docs', 'All Documents', <DescriptionIcon />)} {/* Placeholder */}
+
+        {!collapsed && <Divider sx={{ my: 1, mx: 2, opacity: 0.6 }} />}
+
+        {/* Section 3: System */}
+        {!collapsed && (
+          <ListSubheader component="div" sx={{ lineHeight: '36px', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', color: '#9e9e9e' }}>
+            System
+          </ListSubheader>
+        )}
+        {renderMenuItem('settings', 'Settings', <SettingsIcon />)}
+        {renderMenuItem('help', 'Help & Support', <HelpCenterIcon />)} {/* Placeholder */}
+
       </List>
+
+      {/* Footer Info */}
+      {!collapsed && (
+        <Box sx={{ p: 2, borderTop: '1px solid #e0e0e0', bgcolor: '#f8f9fa' }}>
+          <Typography variant="caption" display="block" color="text.secondary" sx={{ fontWeight: 600 }}>
+            CPMS v1.0.0
+          </Typography>
+          <Typography variant="caption" color="text.disabled">
+            Powered by NIC
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };

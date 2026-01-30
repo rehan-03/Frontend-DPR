@@ -1,7 +1,7 @@
 {
   "name": "dpr-quality-assessment-system",
   "version": "1.0.0",
-  "description": "AI-Powered DPR Quality Assessment and Risk Prediction System for MDoNER",
+  "description": "AI-Powered DPR Quality Assessment and Risk Prediction System for Government of India",
   "private": true,
   "workspaces": [
     "frontend",
