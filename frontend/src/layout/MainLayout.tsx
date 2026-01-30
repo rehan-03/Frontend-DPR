@@ -10,9 +10,10 @@ interface MainLayoutProps {
   children: ReactNode;
   currentPage: string;
   onNavigate: (page: string) => void;
+  userRole: string; // Add userRole prop
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children, currentPage, onNavigate }) => {
+const MainLayout: React.FC<MainLayoutProps> = ({ children, currentPage, onNavigate, userRole }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [chatbotOpen, setChatbotOpen] = useState(false);
   const [chatInput, setChatInput] = useState('');
@@ -35,7 +36,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, currentPage, onNaviga
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f8f9fa' }}>
-      <GovHeader />
+      <GovHeader onNavigate={onNavigate} />
 
       {/* Content Area with Sidebar */}
       <Box sx={{ display: 'flex', flex: 1 }}>
@@ -44,6 +45,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, currentPage, onNaviga
           onToggle={handleSidebarToggle}
           currentPage={currentPage}
           onNavigate={onNavigate}
+          userRole={userRole}
         />
 
         <Box

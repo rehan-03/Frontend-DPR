@@ -25,7 +25,11 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import InfoIcon from '@mui/icons-material/Info';
 
-const GovHeader: React.FC = () => {
+interface GovHeaderProps {
+  onNavigate?: (page: string) => void;
+}
+
+const GovHeader: React.FC<GovHeaderProps> = ({ onNavigate }) => {
   // Profile Menu State
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -210,7 +214,7 @@ const GovHeader: React.FC = () => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
-                <MenuItem onClick={handleMenuClose}>
+                <MenuItem onClick={() => { handleMenuClose(); onNavigate?.('profile'); }}>
                   <AccountCircleIcon fontSize="small" sx={{ mr: 1.5 }} /> Profile
                 </MenuItem>
                 <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>

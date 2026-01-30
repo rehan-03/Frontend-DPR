@@ -30,9 +30,10 @@ interface GovSidebarProps {
   onToggle: () => void;
   currentPage: string;
   onNavigate: (page: string) => void;
+  userRole: string;
 }
 
-const GovSidebar: React.FC<GovSidebarProps> = ({ collapsed, onToggle, currentPage, onNavigate }) => {
+const GovSidebar: React.FC<GovSidebarProps> = ({ collapsed, onToggle, currentPage, onNavigate, userRole }) => {
 
   const renderMenuItem = (id: string, text: string, icon: React.ReactNode) => (
     <Tooltip title={collapsed ? text : ''} placement="right" key={id}>
@@ -127,7 +128,7 @@ const GovSidebar: React.FC<GovSidebarProps> = ({ collapsed, onToggle, currentPag
           </ListSubheader>
         )}
         {renderMenuItem('dashboard', 'Dashboard', <DashboardIcon />)}
-        {renderMenuItem('upload', 'Upload DPR', <CloudUploadIcon />)}
+        {userRole !== 'public' && renderMenuItem('upload', 'Upload DPR', <CloudUploadIcon />)}
 
         {!collapsed && <Divider sx={{ my: 1, mx: 2, opacity: 0.6 }} />}
 
@@ -137,9 +138,9 @@ const GovSidebar: React.FC<GovSidebarProps> = ({ collapsed, onToggle, currentPag
             Analysis
           </ListSubheader>
         )}
-        {renderMenuItem('geo', 'Geospatial Verification', <MapIcon />)}
+        {userRole !== 'public' && renderMenuItem('geo', 'Geospatial Verification', <MapIcon />)}
         {renderMenuItem('reports', 'Reports & Analytics', <AssessmentIcon />)}
-        {renderMenuItem('docs', 'All Documents', <DescriptionIcon />)} {/* Placeholder */}
+        {userRole !== 'public' && renderMenuItem('docs', 'All Documents', <DescriptionIcon />)}
 
         {!collapsed && <Divider sx={{ my: 1, mx: 2, opacity: 0.6 }} />}
 
@@ -149,8 +150,8 @@ const GovSidebar: React.FC<GovSidebarProps> = ({ collapsed, onToggle, currentPag
             System
           </ListSubheader>
         )}
-        {renderMenuItem('settings', 'Settings', <SettingsIcon />)}
-        {renderMenuItem('help', 'Help & Support', <HelpCenterIcon />)} {/* Placeholder */}
+        {userRole !== 'public' && renderMenuItem('settings', 'Settings', <SettingsIcon />)}
+        {renderMenuItem('help', 'Help & Support', <HelpCenterIcon />)}
 
       </List>
 

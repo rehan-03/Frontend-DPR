@@ -18,7 +18,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 
 interface LoginProps {
-    onLogin: () => void;
+    onLogin: (user: any) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
@@ -29,11 +29,51 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        // Mock authentication
+
+        let userProfile = null;
+
         if (email === 'admin' && password === 'admin') {
-            onLogin();
+            userProfile = {
+                name: 'Amit Kumar',
+                role: 'Senior Project Officer',
+                roleType: 'admin',
+                department: 'Public Works Department (PWD)',
+                email: 'amit.kumar@gov.in',
+                phone: '+91 98765 43210',
+                location: 'New Delhi, India',
+                joinDate: '15 Aug 2021',
+                employeeId: 'GOV-ADM-2021-458'
+            };
+        } else if (email === 'author' && password === 'author') {
+            userProfile = {
+                name: 'Rajesh Verma',
+                role: 'DPR Author',
+                roleType: 'author',
+                department: 'Urban Development Ministry',
+                email: 'rajesh.verma@gov.in',
+                phone: '+91 98123 45678',
+                location: 'Mumbai, India',
+                joinDate: '22 Jan 2023',
+                employeeId: 'GOV-DPR-2023-112'
+            };
+        } else if (email === 'public' && password === 'public') {
+            userProfile = {
+                name: 'Priya Sharma',
+                role: 'Public User',
+                roleType: 'public',
+                department: 'Citizen',
+                email: 'priya.sharma@email.com',
+                phone: '+91 99999 88888',
+                location: 'Bangalore, India',
+                joinDate: '30 Jan 2024',
+                employeeId: 'PUB-USR-2024-001'
+            };
+        }
+
+        if (userProfile) {
+            onLogin(userProfile);
         } else {
-            setError('Invalid credentials. Try admin / admin');
+            setError('Invalid credentials. Try admin/admin, author/author, or public/public');
         }
     };
 
@@ -132,7 +172,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     // Default value helper
-                                    helperText="Demo: admin"
+                                    helperText="Demo: admin, author, public"
                                 />
                                 <TextField
                                     label="Password"
@@ -141,7 +181,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                                     variant="outlined"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    helperText="Demo: admin"
+                                    helperText="Demo: admin, author, public"
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">

@@ -6,25 +6,27 @@ import Reports from './pages/Reports';
 import GeospatialVerification from './pages/GeospatialVerification';
 import Login from './pages/Login';
 import Settings from './pages/Settings';
+import Profile from './pages/Profile';
 import AllDocuments from './pages/AllDocuments';
 import HelpSupport from './pages/HelpSupport';
 
 // TODO: Replace with your actual router or main content
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // Use a user object or null instead of a boolean
+  const [user, setUser] = useState<any>(null); // Replace 'any' with your User type if imported
   const [currentPage, setCurrentPage] = useState('dashboard');
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
+  const handleLogin = (userProfile: any) => {
+    setUser(userProfile);
   };
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
+    setUser(null);
     setCurrentPage('dashboard');
   };
 
   // If not authenticated, show Login page
-  if (!isAuthenticated) {
+  if (!user) {
     return <Login onLogin={handleLogin} />;
   }
 
@@ -41,6 +43,8 @@ const App: React.FC = () => {
         return <GeospatialVerification />;
       case 'settings':
         return <Settings />;
+      case 'profile':
+        return <Profile user={user} />;
       case 'docs':
         return <AllDocuments />;
       case 'help':
@@ -51,7 +55,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <MainLayout currentPage={currentPage} onNavigate={setCurrentPage}>
+    <MainLayout currentPage={currentPage} onNavigate={setCurrentPage} userRole={user?.roleType || 'public'}>
       {renderPage()}
     </MainLayout>
   );
