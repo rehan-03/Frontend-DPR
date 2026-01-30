@@ -44,6 +44,42 @@ const HelpSupport: React.FC = () => {
         }
     ];
 
+    const handleDownloadManual = () => {
+        const manualContent = `
+CENTRAL PROJECT MONITORING SYSTEM (CPMS)
+USER MANUAL v1.0
+
+1. INTRODUCTION
+   Welcome to the CPMS portal. This system is designed to streamline the submission and analysis of Detailed Project Reports (DPRs).
+
+2. GETTING STARTED
+   - Login using your assigned credentials (Admin, Author, or Public).
+   - Navigate using the sidebar menu.
+
+3. UPLOADING DPRs
+   - Go to "Upload Documents".
+   - Select your file (PDF/DOCX).
+   - Click "Upload" to start the AI analysis.
+
+4. VIEWING REPORTS
+   - Go to "All Documents" or "Reports".
+   - Click the "Eye" icon to view detailed analysis.
+   - Check the "AI Quality Assessment" scores.
+
+5. SUPPORT
+   - For technical issues, contact support-cpms@nic.in
+        `;
+
+        const blob = new Blob([manualContent], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'CPMS_User_Manual_v1.0.txt'); // Downloading as txt for demo
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
             <Box sx={{ mb: 4, textAlign: 'center' }}>
@@ -87,8 +123,8 @@ const HelpSupport: React.FC = () => {
                                 <Typography variant="h6" sx={{ fontWeight: 600, color: '#1565c0' }}>User Manual v1.0</Typography>
                                 <Typography variant="body2" color="text.secondary">Detailed guide on using the CPMS Portal.</Typography>
                             </Box>
-                            <Button variant="contained" startIcon={<DownloadIcon />}>
-                                Download PDF
+                            <Button variant="contained" startIcon={<DownloadIcon />} onClick={handleDownloadManual}>
+                                Download Manual
                             </Button>
                         </Paper>
                     </Box>
@@ -129,20 +165,7 @@ const HelpSupport: React.FC = () => {
                         </CardContent>
                     </Card>
 
-                    <Paper sx={{ p: 3, borderRadius: 2, textAlign: 'center' }}>
-                        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                            Technical Partner
-                        </Typography>
-                        <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/9/91/National_Informatics_Centre_%28NIC%29_logo.png"
-                            alt="NIC Logo"
-                            style={{ height: 50, marginBottom: 10 }}
-                        />
-                        <Typography variant="caption" display="block" color="text.secondary">
-                            National Informatics Centre<br />
-                            Ministry of Electronics & IT
-                        </Typography>
-                    </Paper>
+
                 </Grid>
             </Grid>
         </Box>

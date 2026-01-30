@@ -10,11 +10,14 @@ import Profile from './pages/Profile';
 import AllDocuments from './pages/AllDocuments';
 import HelpSupport from './pages/HelpSupport';
 
+import Signup from './pages/Signup';
+
 // TODO: Replace with your actual router or main content
 const App: React.FC = () => {
   // Use a user object or null instead of a boolean
   const [user, setUser] = useState<any>(null); // Replace 'any' with your User type if imported
   const [currentPage, setCurrentPage] = useState('dashboard');
+  const [authView, setAuthView] = useState<'login' | 'signup'>('login');
 
   const handleLogin = (userProfile: any) => {
     setUser(userProfile);
@@ -23,18 +26,22 @@ const App: React.FC = () => {
   const handleLogout = () => {
     setUser(null);
     setCurrentPage('dashboard');
+    setAuthView('login');
   };
 
-  // If not authenticated, show Login page
+  // If not authenticated, show Login/Signup page
   if (!user) {
-    return <Login onLogin={handleLogin} />;
+    if (authView === 'signup') {
+      return <Signup onLogin={handleLogin} onSwitchToLogin={() => setAuthView('login')} />;
+    }
+    return <Login onLogin={handleLogin} onSwitchToSignup={() => setAuthView('signup')} />;
   }
 
   // Authenticated Application
   const renderPage = () => {
     switch (currentPage) {
       case 'dashboard':
-        return <Dashboard />;
+        return <Dashboard user={user} />;
       case 'upload':
         return <UploadDocuments />;
       case 'reports':
@@ -50,7 +57,7 @@ const App: React.FC = () => {
       case 'help':
         return <HelpSupport />;
       default:
-        return <Dashboard />;
+        return <Dashboard user={user} />;
     }
   };
 

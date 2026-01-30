@@ -70,13 +70,6 @@ const GovFooter: React.FC = () => {
           <Typography variant="body2" sx={{ opacity: 0.7 }}>
             Designed, Developed and Hosted by <span style={{ fontWeight: 'bold', color: '#fff' }}>National Informatics Centre (NIC)</span>
           </Typography>
-          <Box sx={{ mt: 2 }}>
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/9/91/National_Informatics_Centre_%28NIC%29_logo.png"
-              alt="NIC Logo"
-              style={{ height: 30, opacity: 0.8, filter: 'invert(1) brightness(100)' }}
-            />
-          </Box>
         </Box>
       </Container>
     </Box>

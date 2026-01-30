@@ -19,9 +19,10 @@ import FingerprintIcon from '@mui/icons-material/Fingerprint';
 
 interface LoginProps {
     onLogin: (user: any) => void;
+    onSwitchToSignup: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToSignup }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -220,16 +221,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                                     Login
                                 </Button>
 
-                                <Divider>OR</Divider>
-
                                 <Button
-                                    variant="outlined"
-                                    size="large"
-                                    fullWidth
-                                    startIcon={<FingerprintIcon />}
-                                    sx={{ py: 1.5, fontWeight: 600, color: '#0B3C5D', borderColor: '#0B3C5D' }}
+                                    sx={{ mt: 2 }}
+                                    onClick={onSwitchToSignup}
                                 >
-                                    Login with Parichay
+                                    Don't have an account? Sign Up
                                 </Button>
                             </Stack>
                         </form>

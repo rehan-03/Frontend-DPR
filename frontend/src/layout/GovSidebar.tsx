@@ -138,7 +138,7 @@ const GovSidebar: React.FC<GovSidebarProps> = ({ collapsed, onToggle, currentPag
             Analysis
           </ListSubheader>
         )}
-        {userRole !== 'public' && renderMenuItem('geo', 'Geospatial Verification', <MapIcon />)}
+        {renderMenuItem('geo', 'Geospatial Verification', <MapIcon />)}
         {renderMenuItem('reports', 'Reports & Analytics', <AssessmentIcon />)}
         {userRole !== 'public' && renderMenuItem('docs', 'All Documents', <DescriptionIcon />)}
 
